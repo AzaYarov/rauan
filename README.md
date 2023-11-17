@@ -1,1 +1,85 @@
-# rauan
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maximum GCD Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 20px;
+        }
+
+        input, button {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Maximum GCD Calculator</h2>
+
+    <label for="arraySize">Enter the size of the array:</label>
+    <input type="number" id="arraySize" min="1" required>
+    <br>
+
+    <div id="inputContainer"></div>
+
+    <button onclick="calculateMaxGCD()">Calculate Maximum GCD</button>
+
+    <div id="result"></div>
+
+    <script>
+        function createInputFields(size) {
+            let inputContainer = document.getElementById("inputContainer");
+            inputContainer.innerHTML = ""; // Clear previous input fields
+
+            for (let i = 0; i < size; i++) {
+                let input = document.createElement("input");
+                input.type = "number";
+                input.placeholder = "Enter number " + (i + 1);
+                inputContainer.appendChild(input);
+            }
+        }
+
+        function calculateMaxGCD() {
+            let arraySize = document.getElementById("arraySize").value;
+            let numbers = [];
+
+            // Get input values
+            for (let i = 0; i < arraySize; i++) {
+                let input = document.getElementById("inputContainer").children[i];
+                numbers.push(parseInt(input.value));
+            }
+
+            // Calculate max GCD
+            let maxGCD = -1;
+            for (let i = 0; i < arraySize - 1; i++) {
+                for (let j = i + 1; j < arraySize; j++) {
+                    maxGCD = Math.max(maxGCD, calculateGCD(numbers[i], numbers[j]));
+                }
+            }
+
+            // Display result
+            document.getElementById("result").innerHTML = "Maximum GCD: " + maxGCD;
+        }
+
+        function calculateGCD(a, b) {
+            while (b !== 0) {
+                let temp = b;
+                b = a % b;
+                a = temp;
+            }
+            return a;
+        }
+
+        // Update input fields when array size changes
+        document.getElementById("arraySize").addEventListener("input", function () {
+            let size = parseInt(this.value);
+            createInputFields(size);
+        });
+    </script>
+
+</body>
+</html>
